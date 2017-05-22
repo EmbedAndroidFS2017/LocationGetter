@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
             public void onProviderDisabled(String provider) {
 
             }
-        }
+        };
     }
 
     @Override
