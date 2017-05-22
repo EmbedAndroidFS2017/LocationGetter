@@ -79,45 +79,28 @@ public class MainActivity extends Activity {
 
         }
 
+        // TODO: LocationListener erstellen
         mLocationListener = new LocationListener() {
-
-            // Called back when location changes
-
+            @Override
             public void onLocationChanged(Location location) {
 
-                ensureColor();
-
-                // Determine whether new location is better than current best
-                // estimate
-
-                if (null == mBestReading
-                        || location.getAccuracy() < mBestReading.getAccuracy()) {
-
-                    // Update best estimate
-                    mBestReading = location;
-
-                    // Update display
-                    updateDisplay(location);
-
-                    if (mBestReading.getAccuracy() < MIN_ACCURACY)
-                        mLocationManager.removeUpdates(mLocationListener);
-
-                }
             }
 
-            public void onStatusChanged(String provider, int status,
-                                        Bundle extras) {
-                // NA
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
             }
 
+            @Override
             public void onProviderEnabled(String provider) {
-                // NA
+
             }
 
+            @Override
             public void onProviderDisabled(String provider) {
-                // NA
+
             }
-        };
+        }
     }
 
     @Override
@@ -143,21 +126,9 @@ public class MainActivity extends Activity {
                 return;
             }
 
-            // Register for network location updates
-            if (null != mLocationManager
-                    .getProvider(LocationManager.NETWORK_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, POLLING_FREQ,
-                        MIN_DISTANCE, mLocationListener);
-            }
+            // TODO: Register for network location updates
 
-            // Register for GPS location updates
-            if (null != mLocationManager
-                    .getProvider(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, POLLING_FREQ,
-                        MIN_DISTANCE, mLocationListener);
-            }
+            // TODO: Register for GPS location updates
 
             // Schedule a runnable to unregister location listeners
             Executors.newScheduledThreadPool(1).schedule(new Runnable() {
@@ -166,8 +137,7 @@ public class MainActivity extends Activity {
                 public void run() {
 
                     Log.i(TAG, "location updates cancelled");
-
-                    mLocationManager.removeUpdates(mLocationListener);
+                    // TODO: unregister location updates.
 
                 }
             }, MEASURE_TIME, TimeUnit.MILLISECONDS);
@@ -178,9 +148,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-
-        mLocationManager.removeUpdates(mLocationListener);
-
+        // TODO: unregister location updates.
     }
 
     // Get the last known location from all providers
@@ -206,24 +174,8 @@ public class MainActivity extends Activity {
             // for ActivityCompat#requestPermissions for more details.
             return null;
         }
-        for (String provider : matchingProviders) {
 
-            Location location = mLocationManager.getLastKnownLocation(provider);
-
-            if (location != null) {
-
-                float accuracy = location.getAccuracy();
-                long time = location.getTime();
-
-                if (accuracy < bestAccuracy) {
-
-                    bestResult = location;
-                    bestAccuracy = accuracy;
-                    bestAge = time;
-
-                }
-            }
-        }
+        // TODO: from the list of providers, find the one  with best accuracy.
 
         // Return best reading or null
         if (bestAccuracy > minAccuracy
